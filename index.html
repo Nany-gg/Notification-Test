@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Prueba de Notificaciones</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .status {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔔 Prueba de Notificación en Chrome</h1>
+  <button onclick="pedirPermiso()">Solicitar permiso</button>
+  <div class="status" id="estado"></div>
+
+  <script>
+    function pedirPermiso() {
+      if (!("Notification" in window)) {
+        document.getElementById('estado').innerText = "Tu navegador no soporta notificaciones.";
+        return;
+      }
+
+      Notification.requestPermission().then(function (permiso) {
+        if (permiso === "granted") {
+          document.getElementById('estado').innerText = "Permiso otorgado. Enviando notificación...";
+          new Notification("🎉 ¡Funciona!", {
+            body: "Esta es una notificación de prueba en Chrome.",
+            icon: "https://upload.wikimedia.org/wikipedia/commons/5/55/Notification_icon.png"
+          });
+        } else if (permiso === "denied") {
+          document.getElementById('estado').innerText = "Permiso denegado. No se pueden enviar notificaciones.";
+        } else {
+          document.getElementById('estado').innerText = "Permiso aún no otorgado.";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
